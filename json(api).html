@@ -1,0 +1,79 @@
+
+<html>
+<head>
+	<title>ajax example</title>
+	<h1 align="center">Ajax (default asynchronous behavior perform)</h1>
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+	<button id="ajax" onclick="simple()">click</button>
+	
+    <div id="tab">
+    	
+    </div>
+	<ul id="render-data"></ul>
+
+
+	<script type="text/javascript">
+		"use strict";
+		var txt="";
+		var data="";
+		var i;
+	
+	  function deleteRow(row){
+      var d = row.parentNode.parentNode.rowIndex;
+      document.getElementById('myTable').deleteRow(d);
+   }
+
+   
+		function simple() {
+			var obj= new XMLHttpRequest();
+			obj.onreadystatechange = function(){
+				if (this.readyState==4 &&  this.status==200) {
+
+                    var data = JSON.parse(this.responseText);
+				var	limit=data.length;
+				txt+="<table class='table' id='myTable'> <thead><tr><th>id</th><th>Employees_Name</th><th>Employees_Salary</th><th>Employees_Age</th></t</thead><tbody>";
+					for (var i = 0; i < 30; i++) {
+
+
+                                txt+='<tr>';
+								txt+='<td>'+data[i].id+"</td>";
+								txt+='<td>'+data[i].employee_name+"</td>";
+								txt+='<td>'+data[i].employee_salary+"</td>";
+								txt+='<td>'+data[i].employee_age+"</td>";
+									txt+="<td><input type='button'  value='Delete' onclick='deleteRow(this)'></td>"
+
+									txt+="<td><input type='button'  value='info' onclick='showData()'></td>"
+					
+								txt+='</tr>';
+						
+						}
+
+				txt+="</tbody></table>";
+
+				document.getElementById('tab').innerHTML=txt;
+
+
+				}
+			}
+			
+				
+			txt+="</tr></table>"
+			obj.open("GET","http://dummy.restapiexample.com/api/v1/employees",true);
+			obj.send();
+
+	
+		}
+			function showData(){
+
+
+   	alert(txt)
+   }
+   
+
+
+
+	</script>
+	</body>
+</html>
